@@ -31,8 +31,9 @@ This creates a small invisible gap between elements
     Section:BlankSpace(<Optional, Integer | Default: 10>)
 
 **Creating a Label**
+*labels can also be created inside of tabs*
 
-    Tab:Label("HugeGames", <Optional, Table {Color=Color3Object, Allignment=TextXAllignmentObject} | Default: {Color=Color3.fromRGB(175,175,175), Allignment=Enum.TextXAlignment.Left}>)
+    Section:Label("HugeGames", <Optional, Table {Color=Color3Object, Allignment=TextXAllignmentObject} | Default: {Color=Color3.fromRGB(175,175,175), Allignment=Enum.TextXAlignment.Left}>)
 
 ** Creating a Toggle**
 
