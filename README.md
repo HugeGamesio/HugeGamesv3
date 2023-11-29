@@ -14,6 +14,10 @@ This is one of the First UI Libraries we have ever written from scratch, so plea
 
     local UI = UILib:CreateUI()
 
+**Scaling The UI**
+
+    UI:SetScale(<Integer, NewScale>, <Optional TweenInfo, TweenSize>)
+
 **Creating a Tab**
 
     local Tab = UI:CreateTab("Example")
