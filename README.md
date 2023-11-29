@@ -16,7 +16,7 @@ This is one of the First UI Libraries we have ever written from scratch, so plea
 
 **Scaling The UI**
 
-    UI:SetScale(<Integer, NewScale>, <Optional TweenInfo, TweenSize>)
+    UI:SetScale(<Integer, NewScale | Default: 1.3>, <Optional TweenInfo, TweenSize>)
 
 **Creating a Tab**
 
