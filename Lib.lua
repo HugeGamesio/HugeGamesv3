@@ -1,5 +1,4 @@
 
-
 -- UI v2
 -- Dropdowns + DropDowns Within Nested Sections (Yay)
 -- discord.gg/hugegames
@@ -12,9 +11,31 @@ local DisableMovementRotation = true
 local MovementTweenTime = .15
 local isUsingSlider = false
 
-local BaseItemSize_Section = UDim2.new(0, 290, 0, 30)
-local BaseItemSize_Nested = UDim2.new(0, 250, 0, 30)
+-- Original Sizes
+
+local MainFrameSize = UDim2.new(0, 480, 0, 277)
+local NewPageSize = UDim2.new(0,360, 0, 263)
 local BaseSection_Size = UDim2.new(0, 306, 0, 40)
+local Section_LabelSize = UDim2.new(0, 306, 0, 25)
+local BaseItemSize_Section = UDim2.new(0, 290, 0, 30)
+local Section_MainLabelSize = UDim2.new(0, 290, 0, 25)
+local BaseItemSize_Nested = UDim2.new(0, 250, 0, 30)
+local Mult = 0.9
+
+
+local function CalculateSize(Frame, List, Scale) -- ACS For Scaling, Don't ask ok.f
+	local Scale = Scale or 1
+	local YSize = 0
+	local Items = 0
+	for i,v in pairs(Frame:GetChildren()) do
+		if v:IsA("Frame") then
+			YSize = YSize + v.AbsoluteSize.Y
+			Items = Items + 1
+		end
+	end
+	YSize = YSize + (List.Padding.Offset*Scale)*(Items-1)
+	return YSize/Scale + (10)
+end
 
 function UILib:CreateUI()
 	local Window = {
@@ -35,10 +56,18 @@ function UILib:CreateUI()
 	local HugeUI = Instance.new("ScreenGui")
 
 	local Scaleable = Instance.new("UIScale", HugeUI)
-	Scaleable.Scale = 1
+	Scaleable.Scale = 1.3 -- Changing breaks ACS
 
-	function Window:SetScale(Scale)
-		Scaleable.Scale = Scale
+	function Window:SetScale(Scale, Tween)
+		if Tween then
+			game.TweenService:Create(
+				Scaleable,
+				Tween,
+				{Scale = Scale}
+			):Play()
+		else
+			Scaleable.Scale = Scale
+		end
 	end
 
 
@@ -78,7 +107,7 @@ function UILib:CreateUI()
 
 	local function update(input)
 		local delta = input.Position - dragStart
-		local NewPos = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+		local NewPos = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X / Scaleable.Scale, startPos.Y.Scale, startPos.Y.Offset + delta.Y / Scaleable.Scale)
 		game.TweenService:Create(Frame, TweenInfo.new(MovementTweenTime), {Position=NewPos}):Play()
 	end
 
@@ -132,7 +161,7 @@ function UILib:CreateUI()
 	Frame.BorderColor3 = Color3.new(0, 0, 0)
 	Frame.BorderSizePixel = 0
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-	Frame.Size = UDim2.new(0, 480, 0, 277)
+	Frame.Size = MainFrameSize
 
 	UICorner.Parent = Frame
 
@@ -300,10 +329,10 @@ function UILib:CreateUI()
 		NewPage.Parent = MainSection
 		NewPage.Active = true
 		NewPage.BackgroundColor3 = Color3.new(1, 1, 1)
-		NewPage.BackgroundTransparency = 1
+		NewPage.BackgroundTransparency = 1 -- Research
 		NewPage.BorderColor3 = Color3.new(0, 0, 0)
 		NewPage.BorderSizePixel = 0
-		NewPage.Size = UDim2.new(0,360, 0, 263)
+		NewPage.Size = NewPageSize
 		NewPage.CanvasSize = UDim2.new(0, 0, 1, 0)
 		NewPage.ScrollBarThickness = 0
 		NewPage.ScrollBarImageTransparency = 1
@@ -366,6 +395,7 @@ function UILib:CreateUI()
 		end)
 
 		function Tab:Label(LabelText, Custom)
+			
 			local Custom = Custom or {}
 			local Label = {}
 			local AL = Enum.TextXAlignment.Left
@@ -383,7 +413,7 @@ function UILib:CreateUI()
 			LabelFrame.BorderColor3 = Color3.new(0.117647, 0.117647, 0.117647)
 			LabelFrame.BorderSizePixel = 0
 			LabelFrame.Position = UDim2.new(0.5, 0, 0.720000029, 0)
-			LabelFrame.Size = UDim2.new(0, 306, 0, 25)
+			LabelFrame.Size = Section_LabelSize
 
 			UICorner.Parent = LabelFrame
 			UICorner.CornerRadius = UDim.new(0, 5)
@@ -459,7 +489,8 @@ function UILib:CreateUI()
 			dropdownMain.BorderSizePixel = 0
 			dropdownMain.LayoutOrder = -1
 			dropdownMain.Position = UDim2.new(0.0352065153, 0, 0, 0)
-			dropdownMain.Size = UDim2.new(0, 302, 0, 40)
+			--dropdownMain.Size = UDim2.new(0, 302, 0, 40)
+			dropdownMain.Size = BaseSection_Size
 
 			dropdownArrow.Name = "dropdownArrow"
 			dropdownArrow.Parent = dropdownMain
@@ -508,6 +539,7 @@ function UILib:CreateUI()
 
 			local sectionIsOpen = false
 			local DB = false
+		
 			Button.MouseButton1Click:Connect(function()
 				if not DB then
 
@@ -515,6 +547,7 @@ function UILib:CreateUI()
 					if sectionIsOpen then
 						sectionIsOpen = false
 						DropDown:TweenSize(
+							
 							UDim2.new(0, DropDown.Size.X.Offset, 0, dropdownMain.Size.Y.Offset),
 							Enum.EasingDirection.Out,
 							Enum.EasingStyle.Sine,
@@ -530,7 +563,8 @@ function UILib:CreateUI()
 						sectionIsOpen = true
 						DropDown.BackgroundTransparency = 0
 						DropDown:TweenSize(
-							UDim2.new(0, DropDown.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale),
+							UDim2.new(0, DropDown.Size.X.Offset, 0, CalculateSize(DropDown, UIListLayout, Scaleable.Scale)),
+							--UDim2.new(0, DropDown.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y+10),
 							Enum.EasingDirection.Out,
 							Enum.EasingStyle.Sine,
 							.1,
@@ -643,10 +677,11 @@ function UILib:CreateUI()
 
 				local sectionIsOpen = false
 				local DB = false
+				
 
 				local function updateParentSize()
 					if sectionIsOpen then
-						NestedDropDown.Size = UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedUIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale)
+						NestedDropDown.Size = UDim2.new(0, NestedDropDown.Size.X.Offset, 0, CalculateSize(NestedDropDown, NestedUIListLayout, Scaleable.Scale))--/Scaleable.Scale)
 					else
 						NestedDropDown.Size = UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedDropdownMain.Size.Y.Offset)
 					end
@@ -654,7 +689,7 @@ function UILib:CreateUI()
 
 				local function UpdateParentSize()
 					DropDown:TweenSize(
-						UDim2.new(0, DropDown.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale),
+						UDim2.new(0, DropDown.Size.X.Offset, 0, CalculateSize(DropDown, UIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
 						Enum.EasingDirection.Out,
 						Enum.EasingStyle.Sine,
 						.1,
@@ -687,7 +722,8 @@ function UILib:CreateUI()
 							sectionIsOpen = true
 							NestedDropDown.BackgroundTransparency = 0
 							NestedDropDown:TweenSize(
-								UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedUIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale),
+								--UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedUIListLayout.AbsoluteContentSize.Y+10),--/Scaleable.Scale),
+								UDim2.new(0, NestedDropDown.Size.X.Offset, 0, CalculateSize(NestedDropDown, NestedUIListLayout, Scaleable.Scale)),								
 								Enum.EasingDirection.Out,
 								Enum.EasingStyle.Sine,
 								.1,
@@ -765,7 +801,6 @@ function UILib:CreateUI()
 					local UIStroke = Instance.new("UIStroke", Frame)
 					UIStroke.Color = Color3.fromRGB(50,50,50)
 
-					local Mult = 0.9
 					local TweenTime = 0.05
 					local Debounce = false
 					local isHovering = false
@@ -845,7 +880,7 @@ function UILib:CreateUI()
 				LabelFrame.BorderColor3 = Color3.new(0.137255, 0.137255, 0.137255)
 				LabelFrame.BorderSizePixel = 0
 				LabelFrame.Position = UDim2.new(0.5, 0, 0.720000029, 0)
-				LabelFrame.Size = UDim2.new(0, 290, 0, 25)
+				LabelFrame.Size = Section_MainLabelSize
 
 				UICorner.Parent = LabelFrame
 				UICorner.CornerRadius = UDim.new(0, 5)
@@ -1320,7 +1355,6 @@ function UILib:CreateUI()
 				local UIStroke = Instance.new("UIStroke", Frame)
 				UIStroke.Color = Color3.fromRGB(50,50,50)
 
-				local Mult = 0.9
 				local TweenTime = 0.05
 				local Debounce = false
 				local isHovering = false
@@ -1580,7 +1614,7 @@ function UILib:CreateUI()
 
 				local function updateParentSize()
 					if sectionIsOpen then
-						NestedDropDown.Size = UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedUIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale)
+						NestedDropDown.Size = UDim2.new(0, NestedDropDown.Size.X.Offset, 0, CalculateSize(NestedDropDown, NestedUIListLayout, Scaleable.Scale))--/Scaleable.Scale)
 					else
 						NestedDropDown.Size = UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedDropdownMain.Size.Y.Offset)
 					end
@@ -1588,7 +1622,7 @@ function UILib:CreateUI()
 
 				local function UpdateParentSize()
 					DropDown:TweenSize(
-						UDim2.new(0, DropDown.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale),
+						UDim2.new(0, DropDown.Size.X.Offset, 0, CalculateSize(DropDown, UIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
 						Enum.EasingDirection.Out,
 						Enum.EasingStyle.Sine,
 						.1,
@@ -1621,7 +1655,7 @@ function UILib:CreateUI()
 							sectionIsOpen = true
 							NestedDropDown.BackgroundTransparency = 0
 							NestedDropDown:TweenSize(
-								UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedUIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale),
+								UDim2.new(0, NestedDropDown.Size.X.Offset, 0, CalculateSize(NestedDropDown, NestedUIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
 								Enum.EasingDirection.Out,
 								Enum.EasingStyle.Sine,
 								.1,
@@ -1727,7 +1761,7 @@ function UILib:CreateUI()
 
 					local function updateParentSize()
 						if dropdownIsOpen then
-							NestedDropDownX.Size = UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, NestedUIListLayoutX.AbsoluteContentSize.Y+10/Scaleable.Scale)
+							NestedDropDownX.Size = UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, CalculateSize(NestedDropDownX, NestedUIListLayoutX, Scaleable.Scale))--/Scaleable.Scale)
 						else
 							NestedDropDownX.Size = UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, NestedDropdownMainX.Size.Y.Offset)
 						end
@@ -1735,7 +1769,7 @@ function UILib:CreateUI()
 
 					local function UpdateParentSize()
 						DropDown:TweenSize(
-							UDim2.new(0, DropDown.Size.X.Offset, 0, UIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale),
+							UDim2.new(0, DropDown.Size.X.Offset, 0, CalculateSize(DropDown, UIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
 							Enum.EasingDirection.Out,
 							Enum.EasingStyle.Sine,
 							.1,
@@ -1748,7 +1782,7 @@ function UILib:CreateUI()
 					
 					local function UpdateParentSizeX()
 						NestedDropDown:TweenSize(
-							UDim2.new(0, NestedDropDown.Size.X.Offset, 0, NestedUIListLayout.AbsoluteContentSize.Y+10/Scaleable.Scale),
+							UDim2.new(0, NestedDropDown.Size.X.Offset, 0, CalculateSize(NestedDropDown, NestedUIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
 							Enum.EasingDirection.Out,
 							Enum.EasingStyle.Sine,
 							.1,
@@ -1782,7 +1816,7 @@ function UILib:CreateUI()
 								dropdownIsOpen = true
 								NestedDropDownX.BackgroundTransparency = 0
 								NestedDropDownX:TweenSize(
-									UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, NestedUIListLayoutX.AbsoluteContentSize.Y+10/Scaleable.Scale),
+									UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, CalculateSize(NestedDropDownX, NestedUIListLayoutX, Scaleable.Scale)),--/Scaleable.Scale),
 									Enum.EasingDirection.Out,
 									Enum.EasingStyle.Sine,
 									.1,
@@ -1860,7 +1894,6 @@ function UILib:CreateUI()
 						local UIStroke = Instance.new("UIStroke", Frame)
 						UIStroke.Color = Color3.fromRGB(50,50,50)
 
-						local Mult = 0.9
 						local TweenTime = 0.05
 						local Debounce = false
 						local isHovering = false
@@ -2349,7 +2382,6 @@ function UILib:CreateUI()
 					local UIStroke = Instance.new("UIStroke", Frame)
 					UIStroke.Color = Color3.fromRGB(50,50,50)
 
-					local Mult = 0.9
 					local TweenTime = 0.05
 					local Debounce = false
 					local isHovering = false
