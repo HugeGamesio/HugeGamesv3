@@ -6,9 +6,13 @@ This is one of the First UI Libraries we have ever written from scratch, so plea
 
 ### Documentation
 
-**Creating a New UI**
+**Loading The Library**
 
     local UILib = loadstring(game:HttpGet("https://raw.githubusercontent.com/HugeGamesio/HugeGamesv3/main/Lib.lua"))
+
+**Creating a New UI**
+
+    local UI = UILib:CreateUI()
 
 **Creating a Tab**
 
