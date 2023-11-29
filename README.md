@@ -35,9 +35,9 @@ This creates a small invisible gap between elements
 
     Section:Label("HugeGames", <Optional, Table {Color=Color3Object, Allignment=TextXAllignmentObject} | Default: {Color=Color3.fromRGB(175,175,175), Allignment=Enum.TextXAlignment.Left}>)
 
-** Creating a Toggle**
+**Creating a Toggle**
 
-    Section:Toggle("Toggle Test", false, function(isToggled)
+    Section:Toggle("Toggle Test", <Boolean, IsToggled | Default: false>, function(isToggled)
     
     end)
 
