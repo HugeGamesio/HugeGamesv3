@@ -56,7 +56,7 @@ function UILib:CreateUI()
 	local HugeUI = Instance.new("ScreenGui")
 
 	local Scaleable = Instance.new("UIScale", HugeUI)
-	Scaleable.Scale = 1.3 -- Changing breaks ACS
+	Scaleable.Scale = 1 -- Changing breaks ACS
 
 	function Window:SetScale(Scale, Tween)
 		if Tween then
@@ -854,6 +854,7 @@ function UILib:CreateUI()
 							task.delay(TweenTime*2, function()
 								Debounce = false
 							end)
+							callback(v)
 						end
 					end)
 				end
@@ -1947,6 +1948,7 @@ function UILib:CreateUI()
 								task.delay(TweenTime*2, function()
 									Debounce = false
 								end)
+								callback(v)
 							end
 						end)
 					end
