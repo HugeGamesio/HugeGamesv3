@@ -112,7 +112,7 @@ function UILib:CreateUI()
 	end
 
 	Frame.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 and (not isUsingSlider) then
+		if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and (not isUsingSlider) then
 			dragging = true
 			dragStart = input.Position
 			startPos = Frame.Position
@@ -374,7 +374,7 @@ function UILib:CreateUI()
 		Tab.Button = TabButton
 
 		TabButton.InputBegan:Connect(function(Input)
-			if Input.UserInputType == Enum.UserInputType.MouseButton1 and Input.UserInputState == Enum.UserInputState.Begin then
+			if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin then
 				for i,v in pairs(Window.tabs) do
 					v.Page.Visible = false
 					v.Button.Transparency = 1
@@ -815,7 +815,7 @@ function UILib:CreateUI()
 					end)
 					
 					Frame.InputBegan:Connect(function(Input)
-						if Input.UserInputType == Enum.UserInputType.MouseButton1 and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
+						if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
 							Debounce = true
 							callback()
 							game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
@@ -1092,7 +1092,7 @@ function UILib:CreateUI()
 				end
 
 				Frame.InputBegan:Connect(function(Input)
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 and Input.UserInputState == Enum.UserInputState.Begin then
+					if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin then
 						QueueClosure()
 						isUsingSlider = true
 						Pointer.Visible = true
@@ -1109,7 +1109,7 @@ function UILib:CreateUI()
 						end);CalculateMath()
 						
 						Frame.InputEnded:Connect(function(Input)
-							if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+							if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) then
 								Connection:Disconnect()
 								isUsingSlider = false
 							end
@@ -1370,7 +1370,7 @@ function UILib:CreateUI()
 				end)
 				
 				Frame.InputBegan:Connect(function(Input)
-					if Input.UserInputType == Enum.UserInputType.MouseButton1 and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
+					if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
 						Debounce = true
 						callback()
 						game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
@@ -1909,7 +1909,7 @@ function UILib:CreateUI()
 						end)
 
 						Frame.InputBegan:Connect(function(Input)
-							if Input.UserInputType == Enum.UserInputType.MouseButton1 and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
+							if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
 								Debounce = true
 								callback()
 								game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
@@ -2150,7 +2150,7 @@ function UILib:CreateUI()
 					end
 					
 					Frame.InputBegan:Connect(function(Input)
-						if Input.UserInputType == Enum.UserInputType.MouseButton1 and Input.UserInputState == Enum.UserInputState.Begin then
+						if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin then
 							QueueClosure()
 							isUsingSlider = true
 							Pointer.Visible = true
@@ -2167,7 +2167,7 @@ function UILib:CreateUI()
 							end);CalculateMath()
 							
 							Frame.InputEnded:Connect(function(Input)
-								if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+								if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) then
 									Connection:Disconnect()
 									isUsingSlider = false
 								end
@@ -2398,7 +2398,7 @@ function UILib:CreateUI()
 					end)
 
 					Frame.InputBegan:Connect(function(Input)
-						if Input.UserInputType == Enum.UserInputType.MouseButton1 and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
+						if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
 							Debounce = true
 							callback()
 							game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
