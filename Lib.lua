@@ -74,7 +74,7 @@ function UILib:CreateUI()
 	local Constraint = Instance.new("Frame")
 
 	function Window:Destroy()
-		Constraint:Destroy()
+		HugeUI:Destroy()
 	end
 
 
@@ -315,6 +315,13 @@ function UILib:CreateUI()
 	MainSection.BorderSizePixel = 0
 	MainSection.Position = UDim2.new(0.236981466, 0, 0.0263559967, 0)
 	MainSection.Size = UDim2.new(0.750661969, 0, 0.95225364, 0)
+	
+	function Window:SetStatus(Name, Color)
+		local Name = Name or "Member"
+		local Color = Color or Color3.fromRGB(66, 255, 120)
+		TextLabel_2.Text = Name
+		TextLabel_2.TextColor3 = Color
+	end
 
 	function Window:CreateTab(tabTitle)
 		local Tab = {
@@ -1397,6 +1404,7 @@ function UILib:CreateUI()
 						end)
 					end
 				end)
+				return Toggle
 			end
 
 			function Section:Toggle(ToggleTitle, isToggled, callback, Extra)
@@ -1780,7 +1788,7 @@ function UILib:CreateUI()
 							end
 						)
 					end
-					
+
 					local function UpdateParentSizeX()
 						NestedDropDown:TweenSize(
 							UDim2.new(0, NestedDropDown.Size.X.Offset, 0, CalculateSize(NestedDropDown, NestedUIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
@@ -1794,7 +1802,7 @@ function UILib:CreateUI()
 							end
 						)
 					end
-					
+
 					Button.MouseButton1Click:Connect(function()
 						if not DB then
 
@@ -1952,22 +1960,389 @@ function UILib:CreateUI()
 							end
 						end)
 					end
-					
+
 					-- Unfinished Functions
 					function Dropdown:GetItems()
-						
+
 					end
-					
+
 					function Dropdown:RemoveItem()
-						
+
 					end
-					
+
 					function Dropdown:UpdateItems()
-						
+
+					end
+
+					function Dropdown:Toggle(isOpen)
+
+					end
+					--Unfinished Functions
+
+					return Dropdown
+				end
+				
+				function NestedSection:Search_DropDown(placeholderTitle, ItemList, callback)
+					local Dropdown = {
+						title = placeholderTitle,
+						elements = {}
+					}
+					local ItemList = ItemList or {}
+
+					local NestedDropDownX = Instance.new("Frame")
+					local NestedUIListLayoutX = Instance.new("UIListLayout")
+					local NestedDropdownMainX = Instance.new("Frame")
+					local NestedDropdownArrowX = Instance.new("TextLabel")
+					local NestedDropdownTitleX = Instance.new("TextLabel")
+					local NestedUICornerX = Instance.new("UICorner")
+					local NestedUICorner_2X = Instance.new("UICorner")
+
+					NestedDropDownX.Name = "DropDown"
+					NestedDropDownX.Parent = NestedDropDown
+					NestedDropDownX.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+					NestedDropDownX.BorderColor3 = Color3.new(0, 0, 0)
+					NestedDropDownX.BorderSizePixel = 0
+					NestedDropDownX.Position = UDim2.new(0.0638888925, 0, -0.612167299, 0)
+					NestedDropDownX.Size = UDim2.new(0,250,0,25)
+					NestedDropDownX.ClipsDescendants = true
+
+					table.insert(dropdownFrames, NestedDropDownX)
+
+					NestedUIListLayoutX.Parent = NestedDropDownX
+					NestedUIListLayoutX.HorizontalAlignment = Enum.HorizontalAlignment.Center
+					NestedUIListLayoutX.SortOrder = Enum.SortOrder.LayoutOrder
+					NestedUIListLayoutX.Padding = UDim.new(0, 5)
+
+					NestedDropdownMainX.Name = "NestedDropdownMain"
+					NestedDropdownMainX.Parent = NestedDropDownX
+					--NestedDropdownMain.BackgroundColor3 = Color3.new(0.117647, 0.117647, 0.117647)
+					NestedDropdownMainX.BackgroundColor3 = Color3.new(0.156863, 0.156863, 0.156863)
+					NestedDropdownMainX.BorderColor3 = Color3.new(0, 0, 0)
+					NestedDropdownMainX.BorderSizePixel = 0
+					NestedDropdownMainX.LayoutOrder = -1
+					NestedDropdownMainX.Position = UDim2.new(0.0352065153, 0, 0, 0)
+					NestedDropdownMainX.Size = UDim2.new(0, 250, 0, 25)
+
+					NestedDropdownArrowX.Name = "NestedDropdownArrow"
+					NestedDropdownArrowX.Parent = NestedDropdownMainX
+					NestedDropdownArrowX.AnchorPoint = Vector2.new(0.5, 0)
+					NestedDropdownArrowX.BackgroundColor3 = Color3.new(1, 1, 1)
+					NestedDropdownArrowX.BackgroundTransparency = 1
+					NestedDropdownArrowX.BorderColor3 = Color3.new(0, 0, 0)
+					NestedDropdownArrowX.BorderSizePixel = 0
+					NestedDropdownArrowX.Position = UDim2.new(0.942646146, 0, 0.34018153, 0)
+					NestedDropdownArrowX.Size = UDim2.new(0, 10, 0, 12)
+					NestedDropdownArrowX.Font = Enum.Font.FredokaOne
+					NestedDropdownArrowX.Text = "V"
+					NestedDropdownArrowX.TextColor3 = Color3.new(0.784314, 0.784314, 0.784314)
+					NestedDropdownArrowX.TextScaled = true
+					NestedDropdownArrowX.TextSize = 14
+					NestedDropdownArrowX.TextWrapped = true
+					NestedDropdownArrowX.TextXAlignment = Enum.TextXAlignment.Left
+					NestedDropdownArrowX.Visible = false
+					
+					local Input = Instance.new("TextBox", NestedDropdownMainX)
+					Input.AnchorPoint = Vector2.new(1,.5)
+					Input.Position = UDim2.new(.975,0,.5,0)
+					Input.Size = UDim2.new(.25,0,.75,0)
+					Input.ZIndex = 10
+					Input.BackgroundColor3 = Color3.fromRGB(30,30,30)
+					Input.TextColor3 = Color3.fromRGB(255,255,255)
+					local Y = Instance.new("UICorner", Input)
+					Input.Font = Enum.Font.FredokaOne
+					Input.TextScaled = true
+					Input.PlaceholderText = "Search"
+					local Q = Instance.new("UITextSizeConstraint", Input)
+					Q.MaxTextSize = 16
+	
+
+					NestedDropdownTitleX.Name = "NestedDropdownTitleX"
+					NestedDropdownTitleX.Parent = NestedDropdownMainX
+					NestedDropdownTitleX.AnchorPoint = Vector2.new(0.5, 0.5)
+					NestedDropdownTitleX.BackgroundColor3 = Color3.new(1, 1, 1)
+					NestedDropdownTitleX.BackgroundTransparency = 1
+					NestedDropdownTitleX.BorderColor3 = Color3.new(0, 0, 0)
+					NestedDropdownTitleX.BorderSizePixel = 0
+					NestedDropdownTitleX.Position = UDim2.new(0.5, 0, 0.5, 0)
+					NestedDropdownTitleX.Size = UDim2.new(0, 226, 0, 16)
+					NestedDropdownTitleX.Font = Enum.Font.FredokaOne
+					NestedDropdownTitleX.Text = placeholderTitle or "Dropdown"
+					NestedDropdownTitleX.TextColor3 = Color3.new(0.784314, 0.784314, 0.784314)
+					NestedDropdownTitleX.TextScaled = true
+					NestedDropdownTitleX.TextSize = 14
+					NestedDropdownTitleX.TextWrapped = true
+					NestedDropdownTitleX.TextXAlignment = Enum.TextXAlignment.Left
+
+					NestedUICorner.Parent = NestedDropdownMainX
+
+					NestedUICorner_2.Parent = NestedDropDownX
+
+					local Button = Instance.new("ImageButton")
+					Button.Parent = NestedDropdownMainX
+					Button.Image = ""
+					Button.ImageTransparency = 1
+					Button.BackgroundTransparency = 1
+					Button.Size = UDim2.new(1,0,1,0)
+
+					local dropdownIsOpen = false
+					local DB = false
+
+					local function updateParentSize()
+						if dropdownIsOpen then
+							NestedDropDownX.Size = UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, CalculateSize(NestedDropDownX, NestedUIListLayoutX, Scaleable.Scale))--/Scaleable.Scale)
+						else
+							NestedDropDownX.Size = UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, NestedDropdownMainX.Size.Y.Offset)
+						end
+					end
+
+					local function UpdateParentSize()
+						DropDown:TweenSize(
+							UDim2.new(0, DropDown.Size.X.Offset, 0, CalculateSize(DropDown, UIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
+							Enum.EasingDirection.Out,
+							Enum.EasingStyle.Sine,
+							.1,
+							true,
+							function()
+								DB=false
+							end
+						)
+					end
+
+					local function UpdateParentSizeX()
+						NestedDropDown:TweenSize(
+							UDim2.new(0, NestedDropDown.Size.X.Offset, 0, CalculateSize(NestedDropDown, NestedUIListLayout, Scaleable.Scale)),--/Scaleable.Scale),
+							Enum.EasingDirection.Out,
+							Enum.EasingStyle.Sine,
+							.1,
+							true,
+							function()
+								DB=false
+								UpdateParentSize()
+							end
+						)
 					end
 					
-					function Dropdown:Toggle(isOpen)
+					local function CalculateSizeQ(Frame, List, Scale) -- ACS For Scaling, Don't ask ok.f
+						local Scale = Scale or 1
+						local YSize = 0
+						local Items = 0
+						for i,v in pairs(Frame:GetChildren()) do
+							if v:IsA("Frame") and v.Visible then
+								YSize = YSize + v.AbsoluteSize.Y
+								Items = Items + 1
+							end
+						end
+						YSize = YSize + (List.Padding.Offset*Scale)*(Items-1)
+						return YSize/Scale + (10)
+					end
+					
+					local function ToggleOpen()
+						dropdownIsOpen = true
+						NestedDropDownX.BackgroundTransparency = 0
+						NestedDropDownX:TweenSize(
+							UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, CalculateSizeQ(NestedDropDownX, NestedUIListLayoutX, Scaleable.Scale)),--/Scaleable.Scale),
+							Enum.EasingDirection.Out,
+							Enum.EasingStyle.Sine,
+							.1,
+							true,
+							function()
+								UpdateParentSizeX()
+							end
+						)
+						game.TweenService:Create(NestedDropdownArrowX, TweenInfo.new(.1), {Rotation=180}):Play()
+					end
+					Button.MouseButton1Click:Connect(function()
+						if not DB then
+
+							DB = true
+							if dropdownIsOpen then
+								dropdownIsOpen = false
+								NestedDropDownX:TweenSize(
+									UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, NestedDropdownMainX.Size.Y.Offset),
+									Enum.EasingDirection.Out,
+									Enum.EasingStyle.Sine,
+									.1,
+									true,
+									function()
+										NestedDropDownX.BackgroundTransparency = 1
+										UpdateParentSizeX()
+									end
+								)
+								game.TweenService:Create(NestedDropdownArrowX, TweenInfo.new(.1), {Rotation=0}):Play()
+							else
+								dropdownIsOpen = true
+								NestedDropDownX.BackgroundTransparency = 0
+								NestedDropDownX:TweenSize(
+									UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, CalculateSizeQ(NestedDropDownX, NestedUIListLayoutX, Scaleable.Scale)),--/Scaleable.Scale),
+									Enum.EasingDirection.Out,
+									Enum.EasingStyle.Sine,
+									.1,
+									true,
+									function()
+										UpdateParentSizeX()
+									end
+								)
+								game.TweenService:Create(NestedDropdownArrowX, TweenInfo.new(.1), {Rotation=180}):Play()
+							end
+						end
+					end)
+					local DDFrames = {}
+					for i,v in pairs(ItemList) do
+						local ButtonText = "Select"
+						local Toggle = Instance.new("Frame")
+						local UICorner = Instance.new("UICorner")
+						local Title = Instance.new("TextLabel")
+						local Frame = Instance.new("Frame")
+						local UICorner_2 = Instance.new("UICorner")
+						local TextLabel = Instance.new("TextLabel")
+
+						Toggle.Name = "Toggle"
+						Toggle.Parent = NestedDropDownX
+						Toggle.AnchorPoint = Vector2.new(0.5, 0)
+						Toggle.BackgroundColor3 = Color3.new(0.156863, 0.156863, 0.156863)
+						Toggle.BorderColor3 = Color3.new(0.137255, 0.137255, 0.137255)
+						Toggle.BorderSizePixel = 0
+						Toggle.Position = UDim2.new(0.5, 0, 0, 0)
+						Toggle.Size = UDim2.new(0,250,0,25)
+
+						UICorner.Parent = Toggle
+
+						Title.Name = "Title"
+						Title.Parent = Toggle
+						Title.AnchorPoint = Vector2.new(0.5, 0)
+						Title.BackgroundColor3 = Color3.new(1, 1, 1)
+						Title.BackgroundTransparency = 1
+						Title.BorderColor3 = Color3.new(0, 0, 0)
+						Title.BorderSizePixel = 0
+						Title.Position = UDim2.new(0.35952127, 0, 0.316090286, 0)
+						Title.Size = UDim2.new(0.667221844, 0, 0.55, 0)
+						Title.Font = Enum.Font.FredokaOne
+						Title.Text = v
+						Title.TextColor3 = Color3.new(0.686275, 0.686275, 0.686275)
+						Title.TextScaled = true
+						Title.TextSize = 14
+						Title.TextWrapped = true
+						Title.TextXAlignment = Enum.TextXAlignment.Left
+
+						Frame.Parent = Toggle
+						Frame.AnchorPoint = Vector2.new(1, 0.5)
+						Frame.BackgroundColor3 = Color3.new(0.156863, 0.156863, 0.156863)
+						Frame.BorderColor3 = Color3.new(0, 0, 0)
+						Frame.BorderSizePixel = 0
+						Frame.Position = UDim2.new(0.97999984, 0, 0.5, 0)
+						Frame.Size = UDim2.new(0.271149337, 0, 0.75, 0)
+
+						UICorner_2.Parent = Frame
+
+						TextLabel.Parent = Frame
+						TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+						TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+						TextLabel.BackgroundTransparency = 1
+						TextLabel.BorderColor3 = Color3.new(0, 0, 0)
+						TextLabel.BorderSizePixel = 0
+						TextLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+						TextLabel.Size = UDim2.new(1, 0, 0.5, 0)
+						TextLabel.Font = Enum.Font.FredokaOne
+						TextLabel.Text = ButtonText
+						TextLabel.TextColor3 = Color3.new(0.686275, 0.686275, 0.686275)
+						TextLabel.TextSize = 14
 						
+						table.insert(DDFrames, {F=Toggle, T=string.lower(v)})
+
+						local UIStroke = Instance.new("UIStroke", Frame)
+						UIStroke.Color = Color3.fromRGB(50,50,50)
+
+						local TweenTime = 0.05
+						local Debounce = false
+						local isHovering = false
+
+						Frame.MouseEnter:Connect(function()
+							isHovering = true
+							game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
+						end)
+						Frame.MouseLeave:Connect(function()
+							isHovering = false
+							game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(50,50,50)}):Play()
+						end)
+
+						Frame.InputBegan:Connect(function(Input)
+							if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
+								Debounce = true
+								callback()
+								game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
+								Frame:TweenSize(
+									UDim2.new(0.271149337*Mult, 0, 0.75*Mult, 0),
+									Enum.EasingDirection.Out,
+									Enum.EasingStyle.Sine,
+									TweenTime,
+									false,
+									function()
+										if not isHovering then
+											game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(50,50,50)}):Play()
+										end
+										Frame:TweenSize(
+											UDim2.new(0.271149337, 0, 0.75, 0),
+											Enum.EasingDirection.Out,
+											Enum.EasingStyle.Sine,
+											TweenTime
+										)
+									end
+								)
+								sectionIsOpen = false
+								NestedDropDownX:TweenSize(
+									UDim2.new(0, NestedDropDownX.Size.X.Offset, 0, NestedDropdownMainX.Size.Y.Offset),
+									Enum.EasingDirection.Out,
+									Enum.EasingStyle.Sine,
+									.1,
+									true,
+									function()
+										NestedDropDownX.BackgroundTransparency = 1
+										UpdateParentSizeX()
+									end
+								)
+								NestedDropdownTitleX.Text = placeholderTitle..": "..v
+								game.TweenService:Create(NestedDropdownArrowX, TweenInfo.new(.1), {Rotation=0}):Play()
+								task.delay(TweenTime*2, function()
+									Debounce = false
+								end)
+								callback(v)
+							end
+						end)
+						
+						local oldText = Input.Text
+						Input.FocusLost:Connect(function()
+						--Input.Changed:Connect(function()
+							if Input.Text~= oldText then
+								oldText = Input.Text
+								local ot = string.lower(oldText)
+								for i,v in pairs(DDFrames) do
+									if string.match(v.T, ot) then
+										v.F.Visible = true
+									else
+										v.F.Visible = false
+									end
+								end
+								ToggleOpen()
+							end
+						end)
+
+					end
+
+					-- Unfinished Functions
+					function Dropdown:GetItems()
+
+					end
+
+					function Dropdown:RemoveItem()
+
+					end
+
+					function Dropdown:UpdateItems()
+
+					end
+
+					function Dropdown:Toggle(isOpen)
+
 					end
 					--Unfinished Functions
 
@@ -2425,6 +2800,7 @@ function UILib:CreateUI()
 							end)
 						end
 					end)
+					return Toggle
 				end
 
 				function NestedSection:Toggle(ToggleTitle, isToggled, callback)
