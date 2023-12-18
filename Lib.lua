@@ -1531,7 +1531,9 @@ function UILib:CreateUI()
 				Frame.MouseButton1Click:Connect(function()
 					Toggle()
 				end)
-				Toggle()
+				if isToggled then
+					Toggle()
+				end
 			end
 
 			function Section:Section(sectionTitle)
@@ -2905,7 +2907,9 @@ function UILib:CreateUI()
 					Frame.MouseButton1Click:Connect(function()
 						Togglex()
 					end)
-					Togglex()
+					if isToggled then
+						Togglex()
+					end
 
 					return Toggle
 				end
