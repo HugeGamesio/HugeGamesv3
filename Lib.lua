@@ -824,7 +824,6 @@ function UILib:CreateUI()
 					Frame.InputBegan:Connect(function(Input)
 						if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
 							Debounce = true
-							callback()
 							game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
 							Frame:TweenSize(
 								UDim2.new(0.271149337*Mult, 0, 0.75*Mult, 0),
@@ -1088,7 +1087,7 @@ function UILib:CreateUI()
 					if Diff < 0 then Diff = 0 end
 					local Math = Diff / Frame.AbsoluteSize.X
 					if Math > 1 then Math = 1 end
-					local Value = tonumber(string.format("%." .. (O or 0) .. "f", (MaxVal*Math)))
+					local Value = tonumber(string.format("PERCENTAGE." .. (O or 0) .. "f", (MaxVal*Math)))
 					Frame_2.Size = UDim2.new(
 						Math,0,
 						1,0
@@ -1531,7 +1530,7 @@ function UILib:CreateUI()
 				Frame.MouseButton1Click:Connect(function()
 					Toggle()
 				end)
-				if isToggled then
+				if not isToggled then
 					Toggle()
 				end
 			end
@@ -1921,7 +1920,6 @@ function UILib:CreateUI()
 						Frame.InputBegan:Connect(function(Input)
 							if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
 								Debounce = true
-								callback()
 								game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
 								Frame:TweenSize(
 									UDim2.new(0.271149337*Mult, 0, 0.75*Mult, 0),
@@ -2270,7 +2268,7 @@ function UILib:CreateUI()
 						Frame.InputBegan:Connect(function(Input)
 							if (Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch) and Input.UserInputState == Enum.UserInputState.Begin and (not Debounce) then		
 								Debounce = true
-								callback()
+								
 								game.TweenService:Create(UIStroke, TweenInfo.new(TweenTime), {Color=Color3.fromRGB(0,155,255)}):Play()
 								Frame:TweenSize(
 									UDim2.new(0.271149337*Mult, 0, 0.75*Mult, 0),
@@ -2516,7 +2514,7 @@ function UILib:CreateUI()
 						if Diff < 0 then Diff = 0 end
 						local Math = Diff / Frame.AbsoluteSize.X
 						if Math > 1 then Math = 1 end
-						local Value = tonumber(string.format("%." .. (O or 0) .. "f", (MaxVal*Math)))
+						local Value = tonumber(string.format("PERCENTAGE." .. (O or 0) .. "f", (MaxVal*Math)))
 						Frame_2.Size = UDim2.new(
 							Math,0,
 							1,0
@@ -2907,7 +2905,7 @@ function UILib:CreateUI()
 					Frame.MouseButton1Click:Connect(function()
 						Togglex()
 					end)
-					if isToggled then
+					if not isToggled then
 						Togglex()
 					end
 
