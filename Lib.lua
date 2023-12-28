@@ -139,7 +139,8 @@ function UILib:CreateUI()
 
 
 	HugeUI.Name = "HugeUI"
-	HugeUI.Parent = (game["Run Service"]:IsStudio() and game.Players.LocalPlayer:WaitForChild("PlayerGui")) or game.CoreGui
+	HugeUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+	-- HugeUI.Parent = (game["Run Service"]:IsStudio() and game.Players.LocalPlayer:WaitForChild("PlayerGui")) or game.CoreGui
 	--HugeUI.Parnet = game.CoreGui
 	HugeUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
