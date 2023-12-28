@@ -1087,7 +1087,7 @@ function UILib:CreateUI()
 					if Diff < 0 then Diff = 0 end
 					local Math = Diff / Frame.AbsoluteSize.X
 					if Math > 1 then Math = 1 end
-					local Value = tonumber(string.format("PERCENTAGE." .. (O or 0) .. "f", (MaxVal*Math)))
+					local Value = tonumber(string.format("%." .. (O or 0) .. "f", (MaxVal*Math)))
 					Frame_2.Size = UDim2.new(
 						Math,0,
 						1,0
@@ -2513,7 +2513,7 @@ function UILib:CreateUI()
 						if Diff < 0 then Diff = 0 end
 						local Math = Diff / Frame.AbsoluteSize.X
 						if Math > 1 then Math = 1 end
-						local Value = tonumber(string.format("PERCENTAGE." .. (O or 0) .. "f", (MaxVal*Math)))
+						local Value = tonumber(string.format("%." .. (O or 0) .. "f", (MaxVal*Math)))
 						Frame_2.Size = UDim2.new(
 							Math,0,
 							1,0
