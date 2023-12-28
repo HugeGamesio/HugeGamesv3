@@ -1407,7 +1407,7 @@ function UILib:CreateUI()
 			end
 
 			function Section:Toggle(ToggleTitle, isToggled, callback, Extra)
-				local isToggled = not isToggled
+				--local isToggled = not isToggled
 				local Extra = Extra or {}
 				local Toggle = Instance.new("Frame")
 				table.insert(sectionedElements, Toggle)
@@ -1496,8 +1496,7 @@ function UILib:CreateUI()
 				function Toggle(setOn)
 					if not toggleDB then
 						toggleDB = true
-						
-						if isToggled and not setOn then
+						if isToggled and (not setOn) then
 							isToggled = false
 							Overlay:TweenSize(
 								UDim2.new(0,0,1,0),
@@ -2805,7 +2804,7 @@ function UILib:CreateUI()
 
 				function NestedSection:Toggle(ToggleTitle, isToggled, callback)
 					callback = callback or function() end
-					local isToggled = not isToggled
+					--local isToggled = not isToggled
 					local Toggle = Instance.new("Frame")
 					table.insert(sectionedElements, Toggle)
 					local UICorner = Instance.new("UICorner")
@@ -2886,14 +2885,18 @@ function UILib:CreateUI()
 
 					Overlay.Size = (isToggled and UDim2.new(1, 0, 1, 0)) or UDim2.new(0, 0, 1, 0)
 					UIStroke.Color = (isToggled and Color3.fromRGB(0,155,255)) or Color3.fromRGB(50,50,50)
-
+					
 					local toggleIsOn = isToggled or false
 					local DBx = false
 					local function Togglex(setOn)
-						if not DBx then
+						if (not DBx) or setOn then
 							DBx = true
-							toggleIsOn = not toggleIsOn
-							if toggleIsOn and not setOn then
+							if setOn then
+								toggleIsOn = true
+							else
+								toggleIsOn = not toggleIsOn
+							end
+							if toggleIsOn then
 								Overlay:TweenSize(UDim2.new(1,0,1,0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, .1, true, function() DBx = false; callback(toggleIsOn) end)
 								game.TweenService:Create(UIStroke, TweenInfo.new(.1), {Color=Color3.fromRGB(0,155,255)}):Play()
 							else
