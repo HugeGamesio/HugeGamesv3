@@ -1493,11 +1493,11 @@ function UILib:CreateUI()
 
 				local toggled = isToggled
 				local toggleDB = false
-				function Toggle()
+				function Toggle(setOn)
 					if not toggleDB then
 						toggleDB = true
-
-						if isToggled then
+						
+						if isToggled and not setOn then
 							isToggled = false
 							Overlay:TweenSize(
 								UDim2.new(0,0,1,0),
@@ -1530,8 +1530,8 @@ function UILib:CreateUI()
 				Frame.MouseButton1Click:Connect(function()
 					Toggle()
 				end)
-				if not isToggled then
-					Toggle()
+				if isToggled then
+					Toggle(true)
 				end
 			end
 
@@ -2889,11 +2889,11 @@ function UILib:CreateUI()
 
 					local toggleIsOn = isToggled or false
 					local DBx = false
-					local function Togglex()
+					local function Togglex(setOn)
 						if not DBx then
 							DBx = true
 							toggleIsOn = not toggleIsOn
-							if toggleIsOn then
+							if toggleIsOn and not setOn then
 								Overlay:TweenSize(UDim2.new(1,0,1,0), Enum.EasingDirection.Out, Enum.EasingStyle.Sine, .1, true, function() DBx = false; callback(toggleIsOn) end)
 								game.TweenService:Create(UIStroke, TweenInfo.new(.1), {Color=Color3.fromRGB(0,155,255)}):Play()
 							else
@@ -2905,8 +2905,8 @@ function UILib:CreateUI()
 					Frame.MouseButton1Click:Connect(function()
 						Togglex()
 					end)
-					if not isToggled then
-						Togglex()
+					if isToggled then
+						Togglex(true)
 					end
 
 					return Toggle
